@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Алена Вейс">
-<meta name="dcterms.date" content="2026-10-04">
+<meta name="dcterms.date" content="2026-10-10">
 
 <title>Домашнее задание по мерам ассоциаций</title>
 <style>
@@ -2229,7 +2229,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 4, 2026</p>
+      <p class="date">October 10, 2026</p>
     </div>
   </div>
   
@@ -2297,14 +2297,99 @@ vertical-align: -.125em;
 </div>
 <p>Шансы наличия гипертонии у мужчин города N в 2,44 раза выше, чем у женщин.</p>
 </section>
-<section id="задание-2" class="level3">
-<h3 class="anchored" data-anchor-id="задание-2">Задание №2</h3>
+</section>
+<section id="задание-2" class="level1">
+<h1>Задание №2</h1>
 <p>В Университете случилось отравление, пострадало 20 студентов. Все они обедали в университетской столовой. К моменту расследования остатки продуктов уже успели выкинуть и санэпидслужба провела опрос студентов: кто какие блюда ел на обед – мясо, рыбу или салат. Для контроля взяли 80 студентов без симптомов отравления и их тоже опросили. Данные приведены во вкладке “отравление” (или в файле otravlenie.csv). Выберите подходящую меру ассоциации, чтобы определить, какое блюдо скорее всего привело к отравлению, и посчитайте ее для каждого блюда. Нарисуйте таблицы сопряженности. Какие можно сделать выводы?</p>
+<hr>
+<p>Так как исследование имеет формат случай-контроль (мы уже знаем исход), то подходящая мера - отношение шансов.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/otravlenie.csv&quot;</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>tab1 <span class="ot">&lt;-</span> <span class="fu">table</span>(Ел <span class="ot">=</span> df2<span class="sc">$</span>мясо, Отравление <span class="ot">=</span> df2<span class="sc">$</span>отравление)[<span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>] <span class="co">#Таблица сопряжения для мяса</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tab1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Отравление
+Ел  1  0
+  1 16 39
+  0  4 41</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(tab1[<span class="dv">1</span>,<span class="dv">1</span>] <span class="sc">*</span> tab1[<span class="dv">2</span>,<span class="dv">2</span>]) <span class="sc">/</span> (tab1[<span class="dv">1</span>,<span class="dv">2</span>] <span class="sc">*</span> tab1[<span class="dv">2</span>,<span class="dv">1</span>])                   <span class="co">#ОШ для мяса</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.205128</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>tab2 <span class="ot">&lt;-</span> <span class="fu">table</span>(Ел <span class="ot">=</span> df2<span class="sc">$</span>рыба, Отравление <span class="ot">=</span> df2<span class="sc">$</span>отравление)[<span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>] <span class="co">#Таблица сопряжения для рыбы</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tab2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Отравление
+Ел  1  0
+  1  3 42
+  0 17 38</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>(tab2[<span class="dv">1</span>,<span class="dv">1</span>] <span class="sc">*</span> tab2[<span class="dv">2</span>,<span class="dv">2</span>]) <span class="sc">/</span> (tab2[<span class="dv">1</span>,<span class="dv">2</span>] <span class="sc">*</span> tab2[<span class="dv">2</span>,<span class="dv">1</span>])                   <span class="co">#ОШ для рыбы</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1596639</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tab3 <span class="ot">&lt;-</span> <span class="fu">table</span>(Ел <span class="ot">=</span> df2<span class="sc">$</span>салат, Отравление <span class="ot">=</span> df2<span class="sc">$</span>отравление)[<span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>] <span class="co">#Таблица сопряжения для салата</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tab3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Отравление
+Ел  1  0
+  1 14 59
+  0  6 21</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>(tab3[<span class="dv">1</span>,<span class="dv">1</span>] <span class="sc">*</span> tab3[<span class="dv">2</span>,<span class="dv">2</span>]) <span class="sc">/</span> (tab3[<span class="dv">1</span>,<span class="dv">2</span>] <span class="sc">*</span> tab3[<span class="dv">2</span>,<span class="dv">1</span>])                   <span class="co">#ОШ для салата</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8305085</code></pre>
+</div>
+</div>
+<p>Шансы того, что студент ел мясо, среди отравившихся в 4,2 раза выше, чем среди здоровых (OR = 4,2). Шансы того, что студент ел рыбу, среди отравившихся примерно в 6 раз ниже, чем среди здоровых (OR = 0,16). Для салата OR = 0,83, то есть шансы почти одинаковы и связи нет.</p>
+<p>Вывод: мясо - это наиболее вероятный источник отравления.</p>
 </section>
-<section id="задание-3" class="level3">
-<h3 class="anchored" data-anchor-id="задание-3">Задание №3</h3>
+<section id="задание-3" class="level1">
+<h1>Задание №3</h1>
 <p>Фирма, занимающаяся арендой автомобилей, решила предоставить скидки более опытным водителям, поскольку они реже попадают в ДТП. Но страховая компания попросила предоставить данные за последний год, чтобы проверить, так ли это. Во вкладке “аренда машин” (или в файле carrental.csv) приведены данные по 100 случайно выбранным арендаторам, где указано наличие стажа, день года, когда арендатор взял машину в аренду, день года, когда он прекратил аренду (365-й день, если она оставалась в аренде на конец года) и не была ли аренда прекращена из-за ДТП (последний столбец). Выберите подходящую меры случаемости и ассоциации, проинтерпретируйте их. Напишите ответ в страховую компанию.</p>
-</section>
+<hr>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>df3 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/carrental.csv&quot;</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>df3<span class="sc">$</span>дни <span class="ot">&lt;-</span> df3<span class="sc">$</span>stop <span class="sc">-</span> df3<span class="sc">$</span>start  <span class="co"># Время аренды каждого арендатора (в днях)</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>дтп_стаж      <span class="ot">&lt;-</span> <span class="fu">sum</span>(df3<span class="sc">$</span>accident[df3<span class="sc">$</span>experience <span class="sc">==</span> <span class="dv">1</span>])        <span class="co">#  Считаю ДТП у водителей со стажем  </span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>дни_стаж      <span class="ot">&lt;-</span> <span class="fu">sum</span>(df3<span class="sc">$</span>дни[df3<span class="sc">$</span>experience <span class="sc">==</span> <span class="dv">1</span>])             <span class="co">#  Счиатаю сколько дней была в аренде машина у водителей со стажем</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>дтп_нет_стажа <span class="ot">&lt;-</span> <span class="fu">sum</span>(df3<span class="sc">$</span>accident[df3<span class="sc">$</span>experience <span class="sc">==</span> <span class="dv">0</span>])        <span class="co">#  Считаю ДТП у водителей без стажа</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>дни_нет_стажа <span class="ot">&lt;-</span> <span class="fu">sum</span>(df3<span class="sc">$</span>дни[df3<span class="sc">$</span>experience <span class="sc">==</span> <span class="dv">0</span>])             <span class="co">#  Счиатаю сколько дней была в аренде машина у водителей без стажа</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>IR_стаж      <span class="ot">&lt;-</span> дтп_стаж <span class="sc">/</span> дни_стаж <span class="sc">*</span> <span class="dv">365</span>                      <span class="co">#  Считаю incidence rate на 1 год аренды</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>IR_нет_стажа <span class="ot">&lt;-</span> дтп_нет_стажа <span class="sc">/</span> дни_нет_стажа <span class="sc">*</span> <span class="dv">365</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>IR_стаж</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.159958</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>IR_нет_стажа</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.104651</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>IRR <span class="ot">&lt;-</span> IR_нет_стажа <span class="sc">/</span> IR_стаж                                  <span class="co"># Считаю incidence rate ratio</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>IRR</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9523203</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>SE <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">/</span> дтп_стаж <span class="sc">+</span> <span class="dv">1</span> <span class="sc">/</span> дтп_нет_стажа)                   <span class="co"># Стандартная ошибка IRR</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>ДИ_нижний  <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">log</span>(IRR) <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> SE)                        <span class="co"># Нижняя граница 95% ДИ</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>ДИ_верхний <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">log</span>(IRR) <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> SE)                        <span class="co"># Верхняя граница 95% ДИ</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>ДИ_нижний</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2818092</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>ДИ_верхний</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.218184</code></pre>
+</div>
+</div>
+<p>Вывод: Частота ДТП за 1 год у водителей со стажем составила 1,15 на 365 дней аренды, в то время как у водителей без стажа - 1,10 на 365 дней арренды. Отношение частот ДТП составило 0,95 (95% ДИ 0,28-3,21). Таким образом, учитывая что ДИ включает 1, значимой разницы в частоте ДТП среди исследуемых групп нет.</p>
 </section>
 
 </main>
